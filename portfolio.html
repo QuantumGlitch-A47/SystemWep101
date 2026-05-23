@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>F. Hasan — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+          serif: ['Fraunces', 'Georgia', 'serif'],
+        },
+        colors: {
+          space: {
+            950: '#050505', 900: '#0e0e10', 850: '#16161a',
+            800: '#222226', 700: '#34343a', 600: '#52525a',
+            500: '#737380', 400: '#a1a1aa', 300: '#d4d4d8',
+            200: '#e4e4e7', 100: '#f5f5f5',
+          },
+          accent: {
+            400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8',
+          }
+        },
+        letterSpacing: { tighter: '-0.04em', tight: '-0.02em' }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; background:#050505; color:#f5f5f5; }
+  .grid-bg {
+    background-size: 48px 48px;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  }
+  .radial-fade { background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.10), transparent 60%); }
+  .glass { background: rgba(14,14,16,0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .input-field { background:#0a0a0a; border:1px solid #222226; transition: all .2s; color:#f5f5f5; }
+  .input-field:focus { border-color:#3b82f6; outline:none; box-shadow: 0 0 0 1px #3b82f6; }
+  @keyframes ping-soft { 75%, 100% { transform: scale(2); opacity: 0; } }
+  .ping-soft { animation: ping-soft 1.6s cubic-bezier(0,0,0.2,1) infinite; }
+
+  /* Hero collage — both cards nudge slightly on hover and return on leave */
+  .hero-card-main {
+    transform: translate(0, 0) rotate(0deg);
+    transition: transform 0.55s cubic-bezier(.2,.7,.2,1);
+    will-change: transform;
+  }
+  .hero-card-main:hover {
+    transform: translate(-6px, -6px) rotate(0.6deg);
+  }
+  .hero-card-secondary {
+    transform: rotate(-4deg) translate(0, 0);
+    transition: transform 0.55s cubic-bezier(.2,.7,.2,1);
+    will-change: transform;
+  }
+  .hero-card-secondary:hover {
+    transform: rotate(-1deg) translate(6px, -8px);
+  }
+  .img-stripes {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.03) 0 12px, rgba(255,255,255,0.06) 12px 24px),
+      linear-gradient(180deg, #0e0e10, #050505);
+  }
+  .project-card { transition: transform .4s cubic-bezier(.4,0,.2,1), border-color .25s, opacity .3s; }
+  .project-card:hover { transform: translateY(-2px); }
+  /* Markdown render */
+  .md h1 { font-size: 1.75rem; font-weight: 600; letter-spacing:-0.02em; margin: 1.5rem 0 0.75rem; color:#fff; }
+  .md h2 { font-size: 1.35rem; font-weight: 600; letter-spacing:-0.02em; margin: 1.25rem 0 0.5rem; color:#fff; }
+  .md h3 { font-size: 1.1rem;  font-weight: 600; margin: 1rem 0 0.5rem; color:#fff; }
+  .md p  { color:#a1a1aa; line-height:1.7; margin: 0.5rem 0; }
+  .md ul { color:#a1a1aa; line-height:1.7; padding-left: 1.4rem; list-style: disc; margin: 0.5rem 0; }
+  .md ol { color:#a1a1aa; line-height:1.7; padding-left: 1.4rem; list-style: decimal; margin: 0.5rem 0; }
+  .md li { margin: 0.25rem 0; }
+  .md li::marker { color:#52525a; }
+  /* In-progress overlay */
+  .in-progress-cover { filter: blur(8px) saturate(0.7); }
+  .in-progress-stamp {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(180deg, rgba(5,5,5,0.35), rgba(5,5,5,0.55));
+    pointer-events:none;
+  }
+  .in-progress-stamp span {
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.3em;
+    text-transform:uppercase; color:#fbbf24;
+    padding: 8px 18px; border: 1px solid rgba(251,191,36,0.45);
+    background: rgba(15,15,15,0.85); border-radius: 4px;
+    transform: rotate(-4deg);
+  }
+  .md code { background:#16161a; border:1px solid #222226; padding: 0.1rem 0.4rem; border-radius:4px; font-size: 0.85em; color:#60a5fa; font-family:'JetBrains Mono', monospace; }
+  .md a { color:#60a5fa; text-decoration: underline; text-underline-offset: 3px; }
+  .md strong { color:#f5f5f5; font-weight: 600; }
+  .md em { color:#d4d4d8; font-style: italic; }
+  .md hr { border: 0; border-top: 1px solid #222226; margin: 1.5rem 0; }
+  /* Modal */
+  .modal-backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+  /* Scrollbars */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #0e0e10; }
+  ::-webkit-scrollbar-thumb { background: #222226; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #34343a; }
+
+  /* --- Magazine / editorial styles for the project detail page --- */
+  .mag-rule {
+    height: 1px;
+    background: #34343a;
+  }
+  .mag-rule-double {
+    border-top: 1px solid #52525a;
+    border-bottom: 1px solid #52525a;
+    height: 5px;
+  }
+  .mag-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+  }
+  .mag-headline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-variation-settings: "opsz" 144;
+    letter-spacing: -0.025em;
+    line-height: 0.92;
+    color: #f5f5f5;
+  }
+  .mag-lede {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: #d4d4d8;
+    line-height: 1.4;
+  }
+  .mag-byline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    color: #737380;
+    font-size: 14px;
+  }
+  .mag-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #737380;
+  }
+  /* Multi-column flowing body; uses the existing .md renderer */
+  .mag-body {
+    column-count: 1;
+    column-gap: 2.5rem;
+    column-rule: 1px solid #222226;
+    font-family: 'Fraunces', Georgia, serif;
+    color: #d4d4d8;
+    line-height: 1.65;
+    font-size: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+  @media (min-width: 768px) {
+    .mag-body { column-count: 2; }
+  }
+  .mag-body > * { break-inside: avoid-column; }
+  .mag-body h1, .mag-body h2, .mag-body h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .mag-body h1 { font-size: 1.6rem; font-weight: 600; }
+  .mag-body h2 { font-size: 1.25rem; font-weight: 600; }
+  .mag-body h3 { font-size: 1.05rem; font-weight: 600; }
+  .mag-body p { margin: 0 0 0.8rem; color: #d4d4d8; }
+  .mag-body ul, .mag-body ol { margin: 0 0 0.8rem 1.2rem; padding: 0; color: #d4d4d8; }
+  .mag-body li { margin: 0.25rem 0; }
+  .mag-body a { color: #f5f5f5; text-decoration: underline; text-decoration-color: #52525a; text-underline-offset: 3px; }
+  .mag-body strong { color: #fff; font-weight: 600; }
+  .mag-body code { font-family: 'JetBrains Mono', monospace; background: #16161a; border: 1px solid #222226; padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.85em; color: #d4d4d8; }
+  .mag-body hr { border: 0; border-top: 1px solid #222226; margin: 1.4rem 0; }
+  /* Drop cap on the first paragraph of the body */
+  .mag-body > p:first-of-type::first-letter {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    float: left;
+    font-size: 4.2rem;
+    line-height: 0.85;
+    padding: 0.3rem 0.7rem 0 0;
+    color: #f5f5f5;
+  }
+  .mag-end {
+    display: inline-block;
+    width: 10px; height: 10px;
+    background: #d4d4d8;
+  }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- Supabase JS client (provides window.supabase.createClient) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+
+  <script type="text/babel" src="storage.jsx"></script>
+  <script type="text/babel" src="ui.jsx"></script>
+  <script type="text/babel" src="admin.jsx"></script>
+  <script type="text/babel" src="home.jsx"></script>
+  <script type="text/babel" src="detail.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
